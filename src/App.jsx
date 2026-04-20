@@ -4,7 +4,7 @@ import RecordPage from './pages/RecordPage.jsx'
 import LibraryPage from './pages/LibraryPage.jsx'
 import SettingsPage from './pages/SettingsPage.jsx'
 import EditorPage from './editor/EditorPage.jsx'
-import { useRecordingStore } from './store/recordingStore.js'
+import { useRecordingStore } from './store/recordingStore.js';
 
 export default function App() {
   const loadRecordings = useRecordingStore(s => s.loadRecordings)
