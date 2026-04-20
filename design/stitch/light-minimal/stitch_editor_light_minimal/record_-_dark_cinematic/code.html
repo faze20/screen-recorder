@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FocusRecord - Dark Cinematic</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                "primary": "#13ec80",
+                "background-light": "#f6f8f7",
+                "background-dark": "#102219", // Deep charcoal/green tint base
+                "surface-dark": "#161b18",
+                },
+                fontFamily: {
+                "display": ["Spline Sans", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "1rem", "lg": "1.5rem", "xl": "2rem", "2xl": "3rem", "full": "9999px"},
+                backgroundImage: {
+                    'cinematic-gradient': 'radial-gradient(circle at center, #1a2e25 0%, #050a07 100%)',
+                }
+            },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for sidebar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #234836;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #13ec80;
+        }
+        
+        /* Glassmorphism utility not in basic tailwind */
+        .glass-panel {
+            background: rgba(22, 27, 24, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .neon-glow-primary {
+            box-shadow: 0 0 20px rgba(19, 236, 128, 0.15);
+        }
+        
+        .neon-glow-red {
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Hide default select arrow */
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-white font-display overflow-hidden h-screen flex flex-col selection:bg-primary selection:text-black">
+<!-- Top Navigation -->
+<header class="h-16 flex items-center justify-between px-6 border-b border-white/5 bg-[#0a110d] shrink-0 z-20">
+<!-- Left: Logo & Project -->
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-white">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">radio_button_checked</span>
+</div>
+<h1 class="text-white text-lg font-bold tracking-wide">FocusRecord</h1>
+</div>
+<div class="h-4 w-px bg-white/10"></div>
+<div class="flex items-center gap-2 group cursor-pointer">
+<span class="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">Project Alpha_01</span>
+<span class="material-symbols-outlined text-gray-500 text-sm group-hover:text-white transition-colors">edit</span>
+</div>
+</div>
+<!-- Center: Timer -->
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+<div class="flex items-center gap-1 bg-[#1a2520] px-3 py-1.5 rounded-full border border-white/5">
+<div class="size-2 rounded-full bg-red-500 animate-pulse"></div>
+<span class="font-mono text-sm font-medium tracking-wider text-gray-200">00:00:00</span>
+</div>
+</div>
+<!-- Right: Actions & User -->
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center size-9 rounded-full bg-white/5 hover:bg-white/10 text-gray-300 transition-colors">
+<span class="material-symbols-outlined text-[20px]">help</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-white/5">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-white leading-none">Alex Creator</p>
+<p class="text-[10px] text-gray-400 font-medium uppercase tracking-wider mt-1">Pro Plan</p>
+</div>
+<div class="size-9 rounded-full bg-gradient-to-br from-primary to-[#0d944e] p-0.5">
+<div class="w-full h-full rounded-full bg-[#102219] flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-primary text-lg">person</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex relative overflow-hidden bg-cinematic-gradient">
+<!-- Left/Center: Canvas Area -->
+<section class="flex-1 p-6 lg:p-10 flex flex-col relative z-0">
+<!-- Canvas Placeholder -->
+<div class="flex-1 w-full rounded-2xl border-2 border-dashed border-[#234836] bg-[#050a07]/50 hover:border-primary/50 hover:bg-[#050a07]/80 hover:neon-glow-primary transition-all duration-300 group flex flex-col items-center justify-center relative overflow-hidden">
+<!-- Corner Accents -->
+<div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-white/10 rounded-tl-xl group-hover:border-primary/60 transition-colors"></div>
+<div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-white/10 rounded-tr-xl group-hover:border-primary/60 transition-colors"></div>
+<div class="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-white/10 rounded-bl-xl group-hover:border-primary/60 transition-colors"></div>
+<div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-white/10 rounded-br-xl group-hover:border-primary/60 transition-colors"></div>
+<!-- Empty State Content -->
+<div class="flex flex-col items-center gap-6 z-10 p-6">
+<div class="size-20 rounded-full bg-[#1a2e25] flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-black/40">
+<span class="material-symbols-outlined text-4xl text-primary/50 group-hover:text-primary transition-colors">desktop_windows</span>
+</div>
+<div class="text-center space-y-2">
+<h2 class="text-2xl font-bold text-white tracking-tight">Select screen to start</h2>
+<p class="text-gray-400 text-sm max-w-xs mx-auto">Choose a specific window, browser tab, or your entire display to begin capturing.</p>
+</div>
+<button class="mt-4 px-8 py-3 bg-primary text-[#050a07] rounded-full text-sm font-bold tracking-wide hover:bg-white hover:shadow-[0_0_20px_rgba(19,236,128,0.4)] transition-all duration-300 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">add_to_queue</span>
+                        Select Source
+                    </button>
+</div>
+</div>
+</section>
+<!-- Right: Glass Sidebar Settings -->
+<aside class="w-80 h-full glass-panel border-l border-white/5 flex flex-col relative z-10 shrink-0">
+<div class="p-6 flex flex-col gap-6 overflow-y-auto h-full pb-32">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-bold uppercase tracking-wider text-gray-400">Sources</h3>
+<span class="material-symbols-outlined text-gray-500 text-sm cursor-pointer hover:text-white transition-colors">tune</span>
+</div>
+<!-- Microphone Card -->
+<div class="rounded-xl bg-[#0a110d]/60 border border-white/5 p-4 space-y-4 hover:border-white/10 transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">mic</span>
+<span class="text-sm font-medium text-white">Microphone</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] text-primary font-mono">ON</span>
+<div class="w-8 h-4 bg-primary/20 rounded-full relative cursor-pointer">
+<div class="absolute right-0.5 top-0.5 size-3 bg-primary rounded-full shadow-sm"></div>
+</div>
+</div>
+</div>
+<!-- Dropdown -->
+<div class="relative group/select">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500 text-sm pointer-events-none group-focus-within/select:text-primary transition-colors">keyboard_voice</span>
+<select class="w-full bg-[#1a2520] text-sm text-gray-200 rounded-lg py-2.5 pl-9 pr-8 border border-transparent focus:border-primary/50 focus:ring-0 focus:bg-[#1f2b26] transition-all outline-none cursor-pointer hover:bg-[#1f2b26]">
+<option>Yeti Stereo Microphone</option>
+<option>Macbook Pro Mic</option>
+<option>External Audio Interface</option>
+</select>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500 text-sm pointer-events-none">expand_more</span>
+</div>
+<!-- Audio Visualizer -->
+<div class="space-y-1.5">
+<div class="flex justify-between text-[10px] text-gray-500 font-medium">
+<span>L</span>
+<span>-12dB</span>
+</div>
+<div class="h-1.5 w-full bg-[#1a2520] rounded-full overflow-hidden flex gap-0.5">
+<div class="h-full bg-primary/40 flex-1 rounded-l-full"></div>
+<div class="h-full bg-primary/60 flex-1"></div>
+<div class="h-full bg-primary flex-1 shadow-[0_0_8px_rgba(19,236,128,0.6)]"></div>
+<div class="h-full bg-primary flex-1"></div>
+<div class="h-full bg-[#1a2520] flex-1"></div>
+<div class="h-full bg-[#1a2520] flex-1 rounded-r-full"></div>
+</div>
+<div class="flex justify-between text-[10px] text-gray-500 font-medium">
+<span>R</span>
+<span>-12dB</span>
+</div>
+<div class="h-1.5 w-full bg-[#1a2520] rounded-full overflow-hidden flex gap-0.5">
+<div class="h-full bg-primary/40 flex-1 rounded-l-full"></div>
+<div class="h-full bg-primary/60 flex-1"></div>
+<div class="h-full bg-primary flex-1 shadow-[0_0_8px_rgba(19,236,128,0.6)]"></div>
+<div class="h-full bg-primary/80 flex-1"></div>
+<div class="h-full bg-[#1a2520] flex-1"></div>
+<div class="h-full bg-[#1a2520] flex-1 rounded-r-full"></div>
+</div>
+</div>
+</div>
+<!-- Camera Card -->
+<div class="rounded-xl bg-[#0a110d]/60 border border-white/5 p-4 space-y-4 hover:border-white/10 transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-gray-400 text-sm">videocam</span>
+<span class="text-sm font-medium text-white">Camera</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] text-gray-500 font-mono">OFF</span>
+<div class="w-8 h-4 bg-gray-700/50 rounded-full relative cursor-pointer">
+<div class="absolute left-0.5 top-0.5 size-3 bg-gray-400 rounded-full shadow-sm"></div>
+</div>
+</div>
+</div>
+<!-- Camera Preview Placeholder -->
+<div class="aspect-video w-full rounded-lg bg-black/40 border border-dashed border-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-gray-600">videocam_off</span>
+</div>
+<div class="relative group/select">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500 text-sm pointer-events-none group-focus-within/select:text-primary transition-colors">photo_camera</span>
+<select class="w-full bg-[#1a2520] text-sm text-gray-200 rounded-lg py-2.5 pl-9 pr-8 border border-transparent focus:border-primary/50 focus:ring-0 focus:bg-[#1f2b26] transition-all outline-none cursor-pointer hover:bg-[#1f2b26]" disabled="">
+<option>FaceTime HD Camera</option>
+<option>Logitech C920</option>
+</select>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500 text-sm pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- System Audio Card -->
+<div class="rounded-xl bg-[#0a110d]/60 border border-white/5 p-4 flex items-center justify-between hover:border-white/10 transition-colors">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-lg bg-[#1a2520] flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">volume_up</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-white">System Audio</span>
+<span class="text-[10px] text-gray-400">Capturing computer sound</span>
+</div>
+</div>
+<div class="w-8 h-4 bg-primary/20 rounded-full relative cursor-pointer">
+<div class="absolute right-0.5 top-0.5 size-3 bg-primary rounded-full shadow-sm"></div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Bottom Floating Action Bar -->
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2">
+<!-- Layout Toggles (Above bar) -->
+<div class="flex gap-2 mb-2 p-1 rounded-full bg-black/40 backdrop-blur-sm border border-white/5">
+<button class="size-8 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors" title="Screen Only">
+<span class="material-symbols-outlined text-[18px]">desktop_windows</span>
+</button>
+<button class="size-8 rounded-full text-gray-400 flex items-center justify-center hover:bg-white/10 hover:text-white transition-colors" title="Screen + Camera">
+<span class="material-symbols-outlined text-[18px]">picture_in_picture</span>
+</button>
+<button class="size-8 rounded-full text-gray-400 flex items-center justify-center hover:bg-white/10 hover:text-white transition-colors" title="Camera Only">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</button>
+</div>
+<!-- Main Control Bar -->
+<div class="glass-panel rounded-full px-4 py-3 flex items-center gap-6 shadow-2xl shadow-black/50">
+<button class="flex flex-col items-center justify-center gap-1 group text-gray-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">settings</span>
+<span class="text-[10px] font-medium tracking-wide">Settings</span>
+</button>
+<div class="h-10 w-px bg-white/10"></div>
+<!-- RECORD BUTTON -->
+<button class="group relative flex items-center justify-center">
+<div class="absolute inset-0 bg-red-600 rounded-full blur opacity-40 group-hover:opacity-60 transition-opacity duration-300 neon-glow-red"></div>
+<div class="relative size-16 rounded-full bg-gradient-to-t from-red-700 to-red-500 border-4 border-[#2d1111] shadow-inner flex items-center justify-center group-hover:scale-105 transition-all duration-200">
+<div class="size-6 rounded bg-white shadow-sm transition-all duration-300 group-hover:rounded-md"></div>
+</div>
+</button>
+<div class="h-10 w-px bg-white/10"></div>
+<button class="flex flex-col items-center justify-center gap-1 group text-gray-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">folder_open</span>
+<span class="text-[10px] font-medium tracking-wide">Library</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Background texture overlay for cinematic grain -->
+<div class="fixed inset-0 pointer-events-none opacity-[0.03] z-50 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat mix-blend-overlay"></div>
+</body></html>

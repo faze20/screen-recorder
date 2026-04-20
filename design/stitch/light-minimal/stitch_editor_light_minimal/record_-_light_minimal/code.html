@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FocusRecord - Record Screen</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec80",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102219",
+                        "surface-dark": "#1a2c24",
+                        "border-dark": "#234836",
+                        "text-dim": "#92c9ad"
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "2xl": "4rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased selection:bg-primary selection:text-background-dark min-h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between border-b border-gray-200 dark:border-border-dark px-6 py-4 h-16 shrink-0 bg-white dark:bg-background-dark/80 backdrop-blur-md z-10">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-primary flex items-center justify-center text-background-dark">
+<span class="material-symbols-outlined text-[20px] font-bold">radio_button_checked</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight">FocusRecord</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex size-10 items-center justify-center rounded-full bg-gray-100 dark:bg-surface-dark hover:bg-gray-200 dark:hover:bg-border-dark transition-colors">
+<span class="material-symbols-outlined text-gray-600 dark:text-white text-[20px]">help</span>
+</button>
+<button class="flex size-10 items-center justify-center rounded-full bg-gray-100 dark:bg-surface-dark hover:bg-gray-200 dark:hover:bg-border-dark transition-colors">
+<span class="material-symbols-outlined text-gray-600 dark:text-white text-[20px]">settings</span>
+</button>
+<div class="h-8 w-[1px] bg-gray-300 dark:bg-border-dark mx-1"></div>
+<button class="flex size-10 items-center justify-center rounded-full overflow-hidden border-2 border-transparent hover:border-primary transition-colors">
+<img alt="User Avatar" class="size-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnYX8wnuHus7nfgV92OTCqAhY7Ojlkk1uWFd6-wyN_CkG8PzFIjb9DexA5Q0oZciPGe1FlGP-VyXzNl7Iw0m9nZ3Gjt-uqzzZ2Gl-D7XocAg0JszvPmSdTUwsLmWBqDikYcULHtodPSs-P4pTDYHuyLuqD1ML1eF2fRGdLAEnBy_rUZUGeReABp2FpKvaFZA7VYbAyK9eFYq0gly0tFUOVz2w0P2KH9iz2ZI0zF11lqOi1mEXV32VXi-GExHOYKN_wZCjtSTzVpCDR"/>
+</button>
+</div>
+</header>
+<!-- Main Content Grid -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Panel: Preview Canvas -->
+<div class="flex-1 p-6 flex flex-col items-center justify-center bg-gray-50 dark:bg-background-dark relative overflow-hidden">
+<!-- Empty State / Canvas -->
+<div class="w-full h-full max-w-5xl max-h-[80vh] rounded-xl border-2 border-dashed border-gray-300 dark:border-border-dark bg-white dark:bg-surface-dark/30 flex flex-col items-center justify-center group relative transition-all hover:border-primary/50">
+<!-- Floating Webcam Preview -->
+<div class="absolute bottom-8 right-8 w-48 aspect-video rounded-lg overflow-hidden shadow-2xl border-2 border-white dark:border-border-dark bg-black z-20 cursor-move">
+<div class="w-full h-full bg-cover bg-center opacity-90" data-alt="webcam preview of a person smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBZWWmGkYaPKxjkc_LXL5VC-tI1bpR0eVoN2zyzfox6rKBcgzNfyizYlBHg0ch9tkdYBxFC9VGZUjeXBUz3CFmsupLUGuM-tccMoAfFFZL5lZN6AWvXhrzqtSbnVSWsHtVisbt_HzLcqnP5QZOkY1bxNT5HcoaBVFVFnbvOB8wnK5naszTs-ZtVyC8eM3zVG83QKh3cHvElA0aOTtKxW3VnwIY4Y6CiFwGpXDIQMV4av8HbQDED15NdGRmE6qGBEi-F5Cdlh6S6AdJZ');"></div>
+<div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white">drag_pan</span>
+</div>
+<div class="absolute top-2 right-2 size-3 rounded-full bg-primary border border-white dark:border-background-dark"></div>
+</div>
+<!-- Main CTA Content -->
+<div class="flex flex-col items-center gap-6 z-10">
+<div class="size-20 rounded-full bg-gray-100 dark:bg-surface-dark flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-gray-400 dark:text-text-dim text-4xl">monitor</span>
+</div>
+<div class="text-center space-y-2">
+<h2 class="text-2xl font-bold text-slate-800 dark:text-white">Select screen</h2>
+<p class="text-gray-500 dark:text-text-dim max-w-md">Choose a window, browser tab, or your entire screen to start recording.</p>
+</div>
+<button class="mt-4 px-8 h-12 rounded-full bg-primary text-background-dark font-bold text-sm shadow-lg shadow-primary/20 hover:bg-[#0fd673] hover:shadow-primary/40 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">add_to_queue</span>
+                        Select Source
+                    </button>
+</div>
+<!-- Abstract Background Pattern inside dashed box -->
+<div class="absolute inset-0 opacity-5 dark:opacity-10 pointer-events-none" style="background-image: radial-gradient(#13ec80 1px, transparent 1px); background-size: 24px 24px;">
+</div>
+</div>
+<!-- Bottom Canvas Controls (Floating) -->
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-2 p-2 rounded-full bg-white dark:bg-surface-dark shadow-xl border border-gray-100 dark:border-border-dark">
+<button class="size-10 rounded-full flex items-center justify-center text-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-border-dark transition-colors" title="Toggle Webcam">
+<span class="material-symbols-outlined text-[20px]">videocam</span>
+</button>
+<button class="size-10 rounded-full flex items-center justify-center text-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-border-dark transition-colors" title="Toggle Mic">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+<div class="w-[1px] h-4 bg-gray-300 dark:bg-border-dark mx-1"></div>
+<button class="size-10 rounded-full flex items-center justify-center text-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-border-dark transition-colors" title="Canvas Settings">
+<span class="material-symbols-outlined text-[20px]">aspect_ratio</span>
+</button>
+</div>
+</div>
+<!-- Right Panel: Sidebar Configuration -->
+<aside class="w-96 shrink-0 bg-white dark:bg-surface-dark border-l border-gray-200 dark:border-border-dark flex flex-col overflow-y-auto">
+<div class="p-6 flex flex-col gap-6 flex-1">
+<!-- Sources Section -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-bold uppercase tracking-wider text-gray-400 dark:text-text-dim">Sources</h3>
+<span class="bg-gray-100 dark:bg-border-dark text-[10px] font-bold px-2 py-0.5 rounded text-gray-500 dark:text-text-dim">2 ACTIVE</span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Source Card: Screen -->
+<div class="p-4 rounded-xl bg-gray-50 dark:bg-background-dark border border-gray-200 dark:border-border-dark flex items-center justify-between group cursor-pointer hover:border-primary/50 transition-colors">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+<span class="material-symbols-outlined">desktop_windows</span>
+</div>
+<div>
+<p class="font-bold text-sm text-slate-800 dark:text-white">Full Screen</p>
+<p class="text-xs text-gray-500 dark:text-text-dim">Display 1 (2560x1440)</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary">edit</span>
+</div>
+<!-- Source Card: Webcam -->
+<div class="p-4 rounded-xl bg-gray-50 dark:bg-background-dark border border-gray-200 dark:border-border-dark flex items-center justify-between group cursor-pointer hover:border-primary/50 transition-colors">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+<span class="material-symbols-outlined">face</span>
+</div>
+<div>
+<p class="font-bold text-sm text-slate-800 dark:text-white">FaceCam Pro</p>
+<p class="text-xs text-gray-500 dark:text-text-dim">1080p • 60fps</p>
+</div>
+</div>
+<div class="relative">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="h-6 w-11 rounded-full bg-gray-200 dark:bg-gray-700 peer-checked:bg-primary transition-colors"></div>
+<div class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition-transform peer-checked:translate-x-5"></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="border-gray-100 dark:border-border-dark"/>
+<!-- Audio Section -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-bold uppercase tracking-wider text-gray-400 dark:text-text-dim">Audio</h3>
+</div>
+<div class="p-4 rounded-xl bg-gray-50 dark:bg-background-dark border border-gray-200 dark:border-border-dark flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-500 dark:text-text-dim">mic</span>
+<span class="font-bold text-sm text-slate-800 dark:text-white">Shure MV7</span>
+</div>
+<span class="material-symbols-outlined text-gray-400 text-sm cursor-pointer hover:text-white">expand_more</span>
+</div>
+<!-- Audio Meter Visualization -->
+<div class="flex items-center gap-1 h-8 mt-1">
+<div class="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden flex">
+<!-- Dynamic green bar representing audio level -->
+<div class="h-full bg-primary w-[70%] animate-pulse"></div>
+</div>
+<span class="text-xs font-mono font-medium text-primary ml-2">-12dB</span>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-gray-200 dark:bg-border-dark text-[10px] font-bold px-2 py-1 rounded text-gray-600 dark:text-gray-300">NOISE CANCELLATION ON</span>
+</div>
+</div>
+</section>
+<hr class="border-gray-100 dark:border-border-dark"/>
+<!-- Quality & Settings -->
+<section>
+<div class="grid grid-cols-2 gap-3">
+<!-- Quality -->
+<div class="p-3 rounded-xl bg-gray-50 dark:bg-background-dark border border-gray-200 dark:border-border-dark">
+<p class="text-xs text-gray-400 dark:text-text-dim mb-2 font-medium">Quality</p>
+<div class="flex items-center justify-between">
+<span class="font-bold text-slate-800 dark:text-white text-lg">1080p</span>
+<span class="material-symbols-outlined text-gray-400 text-sm">hd</span>
+</div>
+</div>
+<!-- FPS -->
+<div class="p-3 rounded-xl bg-gray-50 dark:bg-background-dark border border-gray-200 dark:border-border-dark">
+<p class="text-xs text-gray-400 dark:text-text-dim mb-2 font-medium">Frame Rate</p>
+<div class="flex items-center justify-between">
+<span class="font-bold text-slate-800 dark:text-white text-lg">60fps</span>
+<span class="material-symbols-outlined text-gray-400 text-sm">speed</span>
+</div>
+</div>
+</div>
+<!-- Zoom Slider -->
+<div class="mt-4 p-3 rounded-xl bg-gray-50 dark:bg-background-dark border border-gray-200 dark:border-border-dark">
+<div class="flex justify-between items-center mb-2">
+<p class="text-xs text-gray-400 dark:text-text-dim font-medium">Zoom Factor</p>
+<span class="text-xs font-bold text-slate-800 dark:text-white">100%</span>
+</div>
+<input class="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary" max="200" min="100" type="range" value="100"/>
+</div>
+</section>
+</div>
+<!-- Footer Action -->
+<div class="p-6 border-t border-gray-200 dark:border-border-dark bg-white dark:bg-surface-dark mt-auto">
+<button class="w-full h-14 rounded-full bg-primary hover:bg-[#0fd673] text-background-dark text-lg font-bold flex items-center justify-center gap-3 shadow-lg shadow-primary/25 transition-all transform hover:scale-[1.02]">
+<div class="size-3 rounded-full bg-red-500 animate-pulse"></div>
+                    Start Recording
+                </button>
+<p class="text-center text-xs text-gray-400 dark:text-text-dim mt-3">Press <kbd class="font-sans font-bold text-gray-500 dark:text-gray-300">Cmd + Shift + R</kbd> to start</p>
+</div>
+</aside>
+</main>
+</body></html>

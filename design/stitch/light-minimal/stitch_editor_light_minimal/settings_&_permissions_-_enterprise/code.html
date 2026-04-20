@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FocusRecord - Settings &amp; Permissions</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec80",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102219",
+                        "surface-dark": "#0c1a13",
+                        "border-dark": "#234836",
+                        "text-secondary": "#92c9ad"
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white h-screen overflow-hidden selection:bg-primary selection:text-black">
+<div class="flex h-full w-full">
+<!-- Sidebar Navigation -->
+<aside class="hidden md:flex flex-col w-72 bg-surface-dark border-r border-border-dark h-full shrink-0">
+<div class="p-8 pb-6">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-gradient-to-br from-primary to-emerald-700 flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">videocam</span>
+</div>
+<div>
+<h1 class="text-white text-lg font-bold leading-tight tracking-tight">FocusRecord</h1>
+<p class="text-text-secondary text-xs font-medium uppercase tracking-wider">Enterprise</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-2 px-4 py-4 overflow-y-auto">
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-text-secondary hover:bg-white/5 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">person</span>
+<span class="text-sm font-medium">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full bg-border-dark text-white shadow-md" href="#">
+<span class="material-symbols-outlined text-primary">verified_user</span>
+<span class="text-sm font-bold">Permissions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-text-secondary hover:bg-white/5 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">integration_instructions</span>
+<span class="text-sm font-medium">Integrations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-text-secondary hover:bg-white/5 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">shield</span>
+<span class="text-sm font-medium">Security</span>
+</a>
+<div class="h-px bg-border-dark my-2 mx-4"></div>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-text-secondary hover:bg-white/5 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">domain</span>
+<span class="text-sm font-medium">Team Settings</span>
+</a>
+</nav>
+<div class="p-6 mt-auto">
+<div class="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/5">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="User profile picture of a business man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpiLkaAaDwLYLmmqSfP2Y_F9GMixEy6tDE4U4r1IDcPFVz-NjtT7B_N1F9KtU1U7VVU-8HYFI3gi3H30USPLwFiB8QGX5VhkaMjnfZIslLdvIRE5glcuUUsS3ACZ8ZsJRe-vnxn2uAxs9OO-eQOldsX-MZwx_ZizTUVNXCY8Zt-em43PjCR6q7rnkHtYqDT-sJgaBqjOlC4ckIb2awBQjUsEI9vgdcaBW73mWzX_Urryzilpo8OY5D_YGi0gI8ZkrbT1pGlwQR3o-9');"></div>
+<div class="flex flex-col overflow-hidden">
+<p class="text-white text-sm font-semibold truncate">James Anderson</p>
+<p class="text-text-secondary text-xs truncate">Admin • Acme Corp</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 h-full overflow-y-auto relative scroll-smooth bg-background-dark">
+<div class="max-w-[1000px] mx-auto px-8 md:px-12 py-10 md:py-14 pb-32">
+<!-- Page Header -->
+<header class="mb-10 flex flex-col gap-4">
+<div>
+<h2 class="text-white text-4xl font-black tracking-tight mb-2">Settings &amp; Permissions</h2>
+<p class="text-text-secondary text-lg font-normal max-w-2xl">Manage system-level access and configure enterprise security policies for your organization.</p>
+</div>
+<!-- Alert Banner (Visual context for modal) -->
+<div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 flex items-start gap-3 mt-2">
+<span class="material-symbols-outlined text-red-500 shrink-0">error</span>
+<div class="flex flex-col">
+<h3 class="text-red-400 font-bold text-sm">Action Required</h3>
+<p class="text-red-200/70 text-sm">System permissions are preventing full functionality. Please review the highlighted items.</p>
+</div>
+</div>
+</header>
+<!-- Section: System Access -->
+<section class="mb-12">
+<h3 class="text-white text-xl font-bold mb-6 px-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">laptop_mac</span>
+                        System Access
+                    </h3>
+<div class="flex flex-col gap-3">
+<!-- Screen Recording Item (Active) -->
+<div class="group flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface-dark border border-white/5 p-5 rounded-2xl hover:border-white/10 transition-all shadow-sm">
+<div class="flex items-start md:items-center gap-5">
+<div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined" style="font-size: 28px;">screen_share</span>
+</div>
+<div>
+<h4 class="text-white text-lg font-semibold">Screen Recording</h4>
+<p class="text-text-secondary text-sm">Required to capture desktop activity and specific windows.</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-primary text-xs font-bold uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Granted</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-14 h-8 bg-border-dark peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 rounded-full peer peer-checked:after:translate-x-6 rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<!-- Microphone Item (Inactive - Trigger for Modal) -->
+<div class="group flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface-dark border border-red-500/30 p-5 rounded-2xl relative overflow-hidden">
+<div class="absolute inset-0 bg-red-500/5 pointer-events-none"></div>
+<div class="flex items-start md:items-center gap-5 relative z-10">
+<div class="size-12 rounded-xl bg-red-500/10 flex items-center justify-center shrink-0 text-red-500">
+<span class="material-symbols-outlined" style="font-size: 28px;">mic_off</span>
+</div>
+<div>
+<h4 class="text-white text-lg font-semibold">Microphone</h4>
+<p class="text-red-400 text-sm">Access denied by system settings. Voiceover unavailable.</p>
+</div>
+</div>
+<div class="flex items-center gap-4 relative z-10">
+<button class="text-white text-xs font-bold uppercase tracking-wider bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full transition-colors shadow-lg shadow-red-500/20">
+                                    Fix Issue
+                                </button>
+<label class="relative inline-flex items-center cursor-not-allowed opacity-60">
+<input class="sr-only peer" disabled="" type="checkbox" value=""/>
+<div class="w-14 h-8 bg-border-dark rounded-full peer peer-checked:after:translate-x-6 rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-gray-400 after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<!-- Camera Item (Active) -->
+<div class="group flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface-dark border border-white/5 p-5 rounded-2xl hover:border-white/10 transition-all shadow-sm">
+<div class="flex items-start md:items-center gap-5">
+<div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined" style="font-size: 28px;">videocam</span>
+</div>
+<div>
+<h4 class="text-white text-lg font-semibold">Camera</h4>
+<p class="text-text-secondary text-sm">Required for picture-in-picture recording.</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-primary text-xs font-bold uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Granted</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-14 h-8 bg-border-dark peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 rounded-full peer peer-checked:after:translate-x-6 rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Data Privacy -->
+<section class="mb-12">
+<h3 class="text-white text-xl font-bold mb-6 px-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">security</span>
+                        Data Privacy
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-surface-dark border border-white/5 p-6 rounded-2xl flex flex-col justify-between gap-6 hover:border-white/10 transition-all">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-text-secondary text-3xl">analytics</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-12 h-7 bg-border-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-5 rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div>
+<h4 class="text-white text-lg font-semibold mb-1">Usage Analytics</h4>
+<p class="text-text-secondary text-sm">Share anonymous usage data to help us improve stability.</p>
+</div>
+</div>
+<div class="bg-surface-dark border border-white/5 p-6 rounded-2xl flex flex-col justify-between gap-6 hover:border-white/10 transition-all">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-primary text-3xl">cloud_sync</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-12 h-7 bg-border-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-5 rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div>
+<h4 class="text-white text-lg font-semibold mb-1">Cloud Backup</h4>
+<p class="text-text-secondary text-sm">Automatically sync recordings to your enterprise vault.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Enterprise Config -->
+<section>
+<h3 class="text-white text-xl font-bold mb-6 px-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">domain_verification</span>
+                        Enterprise Configuration
+                    </h3>
+<div class="bg-surface-dark border border-white/5 p-8 rounded-3xl">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-semibold ml-2">SSO Provider URL</label>
+<div class="relative group">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-text-secondary group-focus-within:text-primary transition-colors">link</span>
+<input class="w-full bg-[#11221a] text-white border-2 border-border-dark rounded-full py-3 pl-12 pr-4 focus:ring-0 focus:border-primary transition-colors placeholder:text-gray-600 font-medium" type="text" value="https://sso.acmecorp.com/login"/>
+</div>
+<p class="text-text-secondary text-xs ml-4">The SAML 2.0 endpoint for your identity provider.</p>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-semibold ml-2">Default Admin Role</label>
+<div class="relative group">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-text-secondary group-focus-within:text-primary transition-colors">admin_panel_settings</span>
+<select class="w-full bg-[#11221a] text-white border-2 border-border-dark rounded-full py-3 pl-12 pr-10 focus:ring-0 focus:border-primary transition-colors appearance-none cursor-pointer font-medium">
+<option>Super Admin</option>
+<option>Team Manager</option>
+<option>Editor</option>
+<option>Viewer</option>
+</select>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Modal Overlay (Permission Denied) -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-black/80 backdrop-blur-[4px]"></div>
+<!-- Modal Content -->
+<div class="relative w-full max-w-lg bg-[#141414] rounded-[2rem] border border-white/10 shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+<!-- Decorative Top Bar -->
+<div class="h-2 w-full bg-gradient-to-r from-red-600 to-orange-500"></div>
+<div class="p-8 md:p-10 flex flex-col items-center text-center">
+<!-- Icon -->
+<div class="size-20 bg-red-500/10 rounded-full flex items-center justify-center mb-6 ring-4 ring-red-500/5">
+<span class="material-symbols-outlined text-red-500" style="font-size: 40px;">mic_off</span>
+</div>
+<!-- Title -->
+<h2 class="text-white text-3xl font-black mb-3 leading-tight">Microphone Access Denied</h2>
+<!-- Description -->
+<p class="text-text-secondary text-base font-medium mb-8 leading-relaxed max-w-sm">
+                            FocusRecord cannot capture audio because macOS has blocked access. You must enable permission in your system settings.
+                        </p>
+<!-- How to Fix Steps -->
+<div class="w-full bg-[#1e1e1e] rounded-2xl p-6 mb-8 text-left border border-white/5">
+<p class="text-white text-xs font-bold uppercase tracking-wider mb-4 text-center opacity-60">How to fix this</p>
+<ul class="flex flex-col gap-4">
+<li class="flex items-start gap-3">
+<div class="size-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</div>
+<p class="text-gray-300 text-sm">Open <span class="text-white font-bold">System Settings</span> on your device.</p>
+</li>
+<li class="flex items-start gap-3">
+<div class="size-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</div>
+<p class="text-gray-300 text-sm">Navigate to <span class="text-white font-bold">Privacy &amp; Security &gt; Microphone</span>.</p>
+</li>
+<li class="flex items-start gap-3">
+<div class="size-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</div>
+<p class="text-gray-300 text-sm">Find <span class="text-white font-bold">FocusRecord</span> and toggle the switch <span class="text-primary font-bold">ON</span>.</p>
+</li>
+</ul>
+</div>
+<!-- Action Button -->
+<button class="w-full bg-primary hover:bg-[#0fd671] active:bg-[#0cb962] text-[#00381d] text-lg font-bold py-4 rounded-full shadow-lg shadow-primary/25 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2 group">
+<span class="material-symbols-outlined group-hover:rotate-180 transition-transform">refresh</span>
+                            Try Again
+                        </button>
+<button class="mt-4 text-text-secondary hover:text-white text-sm font-medium transition-colors">
+                            Dismiss and continue without audio
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

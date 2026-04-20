@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Editor - Enterprise High Contrast</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec80",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102219", // Base dark green/black
+                        "surface-dark": "#1a1a1a", // Panel background
+                        "canvas-dark": "#0a0a0a", // Deepest black for canvas
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for enterprise feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-canvas-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col">
+<!-- Global Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#333] bg-surface-dark px-6 py-3 shrink-0 z-20">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3 text-white">
+<div class="size-8 text-primary flex items-center justify-center rounded-full bg-white/5 border border-white/10">
+<span class="material-symbols-outlined text-[20px]">videocam</span>
+</div>
+<h2 class="text-white text-lg font-bold tracking-wide">FocusRecord <span class="text-gray-500 mx-2">/</span> Untitled Project</h2>
+</div>
+<!-- Undo/Redo Text Buttons -->
+<div class="h-6 w-px bg-[#333] mx-2"></div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-3 py-1.5 hover:bg-white/5 rounded-full text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">undo</span>
+<span>Undo</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-1.5 hover:bg-white/5 rounded-full text-sm font-medium transition-colors text-gray-400">
+<span class="material-symbols-outlined text-[18px]">redo</span>
+<span>Redo</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-sm text-gray-400 font-mono">Autosaved 2m ago</div>
+<div class="flex gap-3">
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-5 bg-[#333] hover:bg-[#444] border border-white/10 text-white text-sm font-bold tracking-wide transition-colors">
+<span class="material-symbols-outlined text-[18px] mr-2">share</span>
+<span class="truncate">Share</span>
+</button>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-6 bg-primary hover:bg-[#0fd671] text-[#11221a] text-sm font-bold tracking-wide transition-colors shadow-[0_0_15px_rgba(19,236,128,0.2)]">
+<span class="truncate">Export Project</span>
+<span class="material-symbols-outlined text-[18px] ml-2">download</span>
+</button>
+</div>
+<div class="w-px h-8 bg-[#333] mx-1"></div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-[#333]" data-alt="User profile avatar gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCucy0mY3DA5X9k2c-rV1C4CLd7b0NW7D_G_6_8qK8rHe91ujrjLKTzLcNGB4zaQjBwJKW8uixGEMrvbwArxwj53obTtBYlC9dsk0oPe2MrxENlC1P0Nq5g6NE2eOpzb7lmpxiv91Roit_EDsmw7RZ2_1snLwn_ygUsAZ2YzpboMaDVSIeYZ9HjWhBHGEBP5-Z5Izn8oMCN-PeGGyAs4mQ15mm0r--YtUgCkVtR3EUe6DztmsGSMQ9uShK8ARdWVXVPruCC_CRJkZUZ");'></div>
+</div>
+</header>
+<!-- Main Layout -->
+<div class="flex flex-1 overflow-hidden">
+<!-- LEFT SIDEBAR: Assets -->
+<aside class="w-64 flex flex-col border-r border-[#333] bg-surface-dark shrink-0">
+<div class="p-4 border-b border-[#333]">
+<h3 class="text-white text-sm font-bold uppercase tracking-wider mb-1">Assets</h3>
+<p class="text-gray-500 text-xs">Drag to timeline</p>
+</div>
+<div class="flex-1 overflow-y-auto p-3 space-y-2">
+<!-- Active Item -->
+<button class="flex items-center w-full gap-3 px-4 py-3 rounded-full bg-primary/10 border border-primary/20 text-primary transition-all group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">folder_open</span>
+<span class="text-sm font-bold">Project Files</span>
+</button>
+<!-- Inactive Items -->
+<button class="flex items-center w-full gap-3 px-4 py-3 rounded-full hover:bg-white/5 text-gray-300 transition-colors">
+<span class="material-symbols-outlined">videocam</span>
+<span class="text-sm font-medium">Recordings</span>
+</button>
+<button class="flex items-center w-full gap-3 px-4 py-3 rounded-full hover:bg-white/5 text-gray-300 transition-colors">
+<span class="material-symbols-outlined">library_music</span>
+<span class="text-sm font-medium">Audio Library</span>
+</button>
+<button class="flex items-center w-full gap-3 px-4 py-3 rounded-full hover:bg-white/5 text-gray-300 transition-colors">
+<span class="material-symbols-outlined">title</span>
+<span class="text-sm font-medium">Text Overlays</span>
+</button>
+<button class="flex items-center w-full gap-3 px-4 py-3 rounded-full hover:bg-white/5 text-gray-300 transition-colors">
+<span class="material-symbols-outlined">category</span>
+<span class="text-sm font-medium">Shapes</span>
+</button>
+<button class="flex items-center w-full gap-3 px-4 py-3 rounded-full hover:bg-white/5 text-gray-300 transition-colors">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="text-sm font-medium">Effects</span>
+</button>
+</div>
+<!-- Import Button -->
+<div class="p-4 border-t border-[#333]">
+<button class="w-full flex items-center justify-center gap-2 bg-[#333] hover:bg-[#444] text-white py-3 rounded-full font-bold text-sm border border-white/10 transition-colors">
+<span class="material-symbols-outlined">add</span>
+                    Import Media
+                </button>
+</div>
+</aside>
+<!-- CENTER: Canvas & Timeline -->
+<main class="flex flex-1 flex-col min-w-0 bg-canvas-dark relative">
+<!-- Canvas Area -->
+<div class="flex-1 flex flex-col p-6 items-center justify-center relative overflow-hidden">
+<!-- Video Preview Wrapper -->
+<div class="relative w-full max-w-4xl aspect-video bg-black rounded-lg border border-[#333] shadow-2xl overflow-hidden group">
+<div class="w-full h-full bg-center bg-cover opacity-90" data-alt="Video preview of a software interface dashboard" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBoAtXsBq1oUgB64n65TIdev31Rx5H_aWn-NACUZ_fwHgn5SYuKLeUYIq--f7GgNasPsVaQFqkesM1HQeK4PZfMIko5E2m0gw-0JTcKjQ_fvbrxfUzq5g5uY5655kC_UDUccuah9rXOJduapjTtz5e5Awa9BEvynlMNnhYn2bcZdwnu43gMVvtIapYtNHmOh3oGb1opRNMy3yQCl-3TXwGKKWn1uiZ6CUBOfJnb1I5HjIqJyciWG53Hfz13Lj3RpMIP2LARZJlp_pCh");'></div>
+<!-- Overlay UI on Canvas -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="bg-black/50 backdrop-blur-sm rounded-full p-4 pointer-events-auto cursor-pointer hover:bg-black/70 hover:scale-105 transition-all">
+<span class="material-symbols-outlined text-white text-5xl">play_arrow</span>
+</div>
+</div>
+<div class="absolute top-4 left-4 bg-black/60 px-3 py-1 rounded-full text-xs font-mono text-white pointer-events-none">
+                         1080p • 30fps
+                     </div>
+</div>
+</div>
+<!-- Toolbar (Between Canvas and Timeline) -->
+<div class="h-14 border-t border-[#333] bg-surface-dark flex items-center justify-between px-6 shrink-0">
+<div class="flex items-center gap-2">
+<!-- Explicitly Labeled Tools -->
+<button class="flex items-center gap-2 px-3 py-2 text-white hover:bg-white/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">content_cut</span>
+<span class="text-xs font-bold uppercase tracking-wide">Split</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-2 text-white hover:bg-white/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+<span class="text-xs font-bold uppercase tracking-wide">Delete</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-2 text-white hover:bg-white/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+<span class="text-xs font-bold uppercase tracking-wide">Copy</span>
+</button>
+</div>
+<!-- Playback Controls -->
+<div class="flex items-center gap-4">
+<button class="text-white hover:text-primary transition-colors">
+<span class="material-symbols-outlined">skip_previous</span>
+</button>
+<button class="bg-white text-black rounded-full p-1 hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-[24px]">play_arrow</span>
+</button>
+<button class="text-white hover:text-primary transition-colors">
+<span class="material-symbols-outlined">skip_next</span>
+</button>
+</div>
+<!-- Zoom -->
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400 text-[18px]">zoom_out</span>
+<input class="w-24 h-1 bg-[#333] rounded-lg appearance-none cursor-pointer accent-primary" type="range"/>
+<span class="material-symbols-outlined text-gray-400 text-[18px]">zoom_in</span>
+</div>
+</div>
+<!-- Timeline Panel -->
+<div class="h-64 border-t border-[#333] bg-[#0f0f0f] flex flex-col shrink-0">
+<!-- Time Ruler -->
+<div class="h-8 border-b border-[#333] flex items-end px-4 font-mono text-xs text-gray-500 select-none relative bg-[#141414]">
+<div class="flex-1 flex justify-between">
+<span>00:00</span>
+<span>00:15</span>
+<span>00:30</span>
+<span>00:45</span>
+<span>01:00</span>
+<span>01:15</span>
+<span>01:30</span>
+<span>01:45</span>
+</div>
+<!-- Playhead -->
+<div class="absolute top-0 bottom-0 left-[35%] w-px bg-primary z-10 flex flex-col items-center">
+<div class="size-3 -mt-1 bg-primary rotate-45 rounded-[1px]"></div>
+</div>
+</div>
+<!-- Tracks -->
+<div class="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-3 relative">
+<!-- Playhead Line extending down -->
+<div class="absolute top-0 bottom-0 left-[35%] w-px bg-primary pointer-events-none z-20 shadow-[0_0_10px_rgba(19,236,128,0.5)]"></div>
+<!-- Video Track -->
+<div class="flex h-16 group">
+<div class="w-32 shrink-0 flex items-center gap-2 text-gray-400 text-xs font-bold uppercase tracking-wider pr-4 border-r border-[#333] bg-[#0f0f0f] z-10">
+<span class="material-symbols-outlined text-[16px]">videocam</span>
+<span>Video 1</span>
+</div>
+<div class="flex-1 relative bg-[#1a1a1a] rounded-lg ml-2 overflow-hidden border border-[#333]">
+<!-- Clip Block -->
+<div class="absolute left-0 w-[45%] top-1 bottom-1 bg-[#2a2a2a] rounded-md border border-gray-700 flex items-center justify-center overflow-hidden">
+<div class="w-full h-full opacity-20 bg-[url('https://placeholder.pics/svg/300')] bg-repeat-x" data-alt="Timeline video strip pattern"></div>
+</div>
+<!-- Active Clip -->
+<div class="absolute left-[45%] w-[30%] top-1 bottom-1 bg-[#234836] rounded-md border-2 border-primary flex items-center justify-between px-2 overflow-hidden cursor-pointer shadow-lg z-10">
+<div class="w-2 h-8 bg-white/20 rounded-full cursor-col-resize"></div>
+<span class="text-xs font-medium text-primary truncate">Screen_Recording_Final.mp4</span>
+<div class="w-2 h-8 bg-white/20 rounded-full cursor-col-resize"></div>
+</div>
+</div>
+</div>
+<!-- Audio Track -->
+<div class="flex h-12 group">
+<div class="w-32 shrink-0 flex items-center gap-2 text-gray-400 text-xs font-bold uppercase tracking-wider pr-4 border-r border-[#333] bg-[#0f0f0f] z-10">
+<span class="material-symbols-outlined text-[16px]">mic</span>
+<span>Audio 1</span>
+</div>
+<div class="flex-1 relative bg-[#1a1a1a] rounded-lg ml-2 overflow-hidden border border-[#333]">
+<!-- Audio Waveform Representation -->
+<div class="absolute left-[10%] w-[60%] top-1 bottom-1 bg-blue-900/30 rounded-md border border-blue-500/30 flex items-center px-2">
+<svg class="w-full h-full text-blue-400" preserveaspectratio="none" viewbox="0 0 200 20">
+<path d="M0 10 L5 2 L10 18 L15 5 L20 15 L25 8 L30 12 L35 4 L40 16 L45 8 L50 12 L55 6 L60 14 L65 8 L70 12 L75 4 L80 16 L85 8 L90 12 L95 6 L100 14 L105 8 L110 12 L115 4 L120 16 L125 8 L130 12 L135 6 L140 14 L145 8 L150 12 L155 4 L160 16 L165 8 L170 12 L175 6 L180 14 L185 8 L190 12 L195 6 L200 10" fill="none" stroke="currentColor" stroke-width="1"></path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- RIGHT SIDEBAR: Properties -->
+<aside class="w-80 border-l border-[#333] bg-surface-dark flex flex-col shrink-0 overflow-y-auto">
+<div class="p-4 border-b border-[#333] flex justify-between items-center">
+<div>
+<h3 class="text-white text-sm font-bold uppercase tracking-wider mb-1">Properties</h3>
+<p class="text-primary text-xs font-mono truncate max-w-[150px]">Screen_Recording_Final.mp4</p>
+</div>
+<button class="text-gray-400 hover:text-white">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Transform Group -->
+<div class="p-5 border-b border-[#333] space-y-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-gray-400">transform</span>
+<span class="text-sm font-bold text-white">Transform</span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="space-y-1">
+<label class="text-xs text-gray-500 uppercase font-bold">Scale</label>
+<div class="flex items-center bg-[#111] border border-[#333] rounded-full px-3 py-2 focus-within:border-primary">
+<span class="text-gray-500 text-xs mr-2">X</span>
+<input class="bg-transparent text-white text-sm w-full outline-none p-0 border-none focus:ring-0" type="text" value="100%"/>
+</div>
+</div>
+<div class="space-y-1">
+<label class="text-xs text-gray-500 uppercase font-bold">Opacity</label>
+<div class="flex items-center bg-[#111] border border-[#333] rounded-full px-3 py-2 focus-within:border-primary">
+<span class="text-gray-500 text-xs mr-2">%</span>
+<input class="bg-transparent text-white text-sm w-full outline-none p-0 border-none focus:ring-0" type="text" value="100"/>
+</div>
+</div>
+</div>
+<div class="space-y-1">
+<label class="text-xs text-gray-500 uppercase font-bold">Position</label>
+<div class="flex gap-3">
+<div class="flex flex-1 items-center bg-[#111] border border-[#333] rounded-full px-3 py-2 focus-within:border-primary">
+<span class="text-gray-500 text-xs mr-2">X</span>
+<input class="bg-transparent text-white text-sm w-full outline-none p-0 border-none focus:ring-0" type="text" value="960"/>
+</div>
+<div class="flex flex-1 items-center bg-[#111] border border-[#333] rounded-full px-3 py-2 focus-within:border-primary">
+<span class="text-gray-500 text-xs mr-2">Y</span>
+<input class="bg-transparent text-white text-sm w-full outline-none p-0 border-none focus:ring-0" type="text" value="540"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Audio Group -->
+<div class="p-5 border-b border-[#333] space-y-4">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-gray-400">volume_up</span>
+<span class="text-sm font-bold text-white">Audio</span>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer checked:right-0 checked:border-primary right-[20px]" id="toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-700 cursor-pointer checked:bg-primary/50" for="toggle"></label>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs text-gray-400">
+<span>Volume</span>
+<span>100%</span>
+</div>
+<input class="w-full h-2 bg-[#333] rounded-lg appearance-none cursor-pointer accent-primary" type="range"/>
+</div>
+</div>
+<!-- Effect Group -->
+<div class="p-5 space-y-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-gray-400">movie_filter</span>
+<span class="text-sm font-bold text-white">Effects</span>
+</div>
+<button class="w-full py-3 border border-dashed border-gray-600 rounded-xl text-gray-400 text-sm font-medium hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span>
+                    Add Effect
+                </button>
+</div>
+</aside>
+</div>
+</body></html>

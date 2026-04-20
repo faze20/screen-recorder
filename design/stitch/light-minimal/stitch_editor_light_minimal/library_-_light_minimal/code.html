@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FocusRecord - Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec80",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102219",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#162e21",
+                        "text-main-light": "#11221a",
+                        "text-main-dark": "#ffffff",
+                        "text-sub-light": "#6b877a",
+                        "text-sub-dark": "#92c9ad",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "1.5rem", "xl": "2rem", "2xl": "2.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #d1d5db;
+            border-radius: 20px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background-color: #234836;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main-light dark:text-text-main-dark transition-colors duration-200">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="hidden lg:flex w-64 flex-col justify-between border-r border-gray-200 dark:border-[#234836] bg-surface-light dark:bg-surface-dark p-6 h-full transition-colors duration-200">
+<div class="flex flex-col gap-8">
+<!-- Logo -->
+<div class="flex items-center gap-2 px-2">
+<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-background-dark">
+<span class="material-symbols-outlined text-2xl">fiber_manual_record</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight">FocusRecord</h1>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-2">
+<a class="group flex items-center gap-3 rounded-full px-4 py-3 text-text-sub-light dark:text-text-sub-dark hover:bg-gray-100 dark:hover:bg-[#234836] transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0, 'wght' 400">grid_view</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="group flex items-center gap-3 rounded-full bg-primary/10 px-4 py-3 text-primary dark:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1, 'wght' 400">video_library</span>
+<span class="text-sm font-bold">Library</span>
+</a>
+<a class="group flex items-center gap-3 rounded-full px-4 py-3 text-text-sub-light dark:text-text-sub-dark hover:bg-gray-100 dark:hover:bg-[#234836] transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0, 'wght' 400">edit_note</span>
+<span class="text-sm font-medium">Editor</span>
+</a>
+<a class="group flex items-center gap-3 rounded-full px-4 py-3 text-text-sub-light dark:text-text-sub-dark hover:bg-gray-100 dark:hover:bg-[#234836] transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0, 'wght' 400">folder_open</span>
+<span class="text-sm font-medium">Collections</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Actions -->
+<div class="flex flex-col gap-4">
+<a class="group flex items-center gap-3 rounded-full px-4 py-3 text-text-sub-light dark:text-text-sub-dark hover:bg-gray-100 dark:hover:bg-[#234836] transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0, 'wght' 400">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<button class="relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-primary p-4 text-background-dark transition-transform hover:scale-[1.02] active:scale-[0.98]">
+<span class="material-symbols-outlined font-bold">add</span>
+<span class="text-sm font-bold">New Recording</span>
+</button>
+<!-- User Profile Snippet -->
+<div class="mt-2 flex items-center gap-3 px-2">
+<div class="h-10 w-10 overflow-hidden rounded-full bg-gray-200" data-alt="User profile picture placeholder">
+<img alt="User Avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxVZdDXmZt0jlLguBGNKs6xWVGcsNzt42pdF14MW29TYQv0255477KjPf12jyfxHHNxfvuMtXtNwczL_dAhZW4-DMbASlCgcy4414wzZzawOdpKi5oJQuGhROipOkYaWPgsp1zYz9HqgannmqOJeuouMr8fWaIs6aprXp7G8epA3g1XsSummGshMj6wYFpaai8bWqryP6XFxT4ovd3EBEigceld1hGvByimFM4TamSxHagN5sSxVKdYHvLlZQFvk0vflBPp-iuTn3Z"/>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-text-main-light dark:text-text-main-dark">Alex M.</span>
+<span class="text-xs text-text-sub-light dark:text-text-sub-dark">Pro Plan</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex flex-1 flex-col overflow-y-auto px-6 py-8 md:px-12">
+<!-- Mobile Header -->
+<div class="lg:hidden mb-8 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-background-dark">
+<span class="material-symbols-outlined text-2xl">fiber_manual_record</span>
+</div>
+<h1 class="text-xl font-bold">FocusRecord</h1>
+</div>
+<button class="rounded-full p-2 hover:bg-gray-100 dark:hover:bg-[#234836]">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<div class="mx-auto flex w-full max-w-[1200px] flex-col gap-8">
+<!-- Page Heading & Utility Bar -->
+<div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+<div>
+<h2 class="text-3xl font-black tracking-tight text-text-main-light dark:text-white">Library</h2>
+<p class="mt-1 text-text-sub-light dark:text-text-sub-dark">Manage your recorded sessions and clips.</p>
+</div>
+<!-- Search & Filter Controls -->
+<div class="flex flex-1 flex-wrap items-center justify-end gap-3 md:max-w-2xl">
+<!-- Search Bar -->
+<div class="group relative flex h-12 w-full min-w-[240px] flex-1 items-center rounded-full bg-surface-light dark:bg-surface-dark shadow-sm ring-1 ring-gray-200 dark:ring-[#234836] focus-within:ring-2 focus-within:ring-primary transition-all">
+<span class="material-symbols-outlined absolute left-4 text-text-sub-light dark:text-text-sub-dark">search</span>
+<input class="h-full w-full bg-transparent pl-12 pr-4 text-sm font-medium text-text-main-light dark:text-white outline-none placeholder:text-text-sub-light dark:placeholder:text-text-sub-dark rounded-full border-none focus:ring-0" placeholder="Search videos..." type="text"/>
+</div>
+<!-- Filter Buttons -->
+<div class="flex items-center gap-2">
+<button class="flex h-12 items-center gap-2 rounded-full bg-surface-light dark:bg-surface-dark px-5 text-sm font-medium text-text-main-light dark:text-white shadow-sm ring-1 ring-gray-200 dark:ring-[#234836] hover:bg-gray-50 dark:hover:bg-[#234836] transition-colors">
+<span>Sort by: Date</span>
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+<button class="flex h-12 w-12 items-center justify-center rounded-full bg-surface-light dark:bg-surface-dark text-text-main-light dark:text-white shadow-sm ring-1 ring-gray-200 dark:ring-[#234836] hover:bg-gray-50 dark:hover:bg-[#234836] transition-colors" title="Filter">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Video Grid -->
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-20">
+<!-- Card 1 -->
+<div class="group relative flex flex-col gap-3 rounded-xl bg-transparent transition-all">
+<div class="relative aspect-video w-full overflow-hidden rounded-xl bg-gray-100 dark:bg-[#1f3a2b]">
+<!-- Thumbnail Image -->
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Abstract colorful technology interface with graphs" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA01zcIPwsHsmqeYKZGeg9fs66_9PoX5ZFs1hjL0ogUTi0j3ZH8-ppz7tTP-zCJ_jLPOvtyiqCnGFO9PmXTkBVTtPo9VMgY6pmK3f0V660WMdXlNyJnkj148kzzSAWTfAZ8oOcQxW6RZYU6Ix78EcaQvRwdwtPlw_iypLHNoaLTLWwr5NbbKQaAY2yaJWhhHiJIolWSMaWOQ26Ug3Rt-9Gj6UIfPZeLuxvXO-wnAgwaF1RNTF88NvXmAdHX--YdHmh7W0xOmuKGCMIg');">
+</div>
+<!-- Hover Overlay -->
+<div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+<button class="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-black shadow-lg backdrop-blur-sm transition-transform hover:scale-110">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">play_arrow</span>
+</button>
+</div>
+<!-- Duration Badge -->
+<div class="absolute bottom-2 right-2 rounded-md bg-black/70 px-2 py-1 text-xs font-medium text-white backdrop-blur-md">
+                                4:23
+                            </div>
+</div>
+<div class="flex items-start justify-between gap-2 px-1">
+<div class="flex flex-col gap-0.5">
+<h3 class="font-bold leading-tight text-text-main-light dark:text-white group-hover:text-primary transition-colors">Q4 Product Demo</h3>
+<p class="text-xs text-text-sub-light dark:text-text-sub-dark">2 hours ago • 12 MB</p>
+</div>
+<button class="flex h-8 w-8 items-center justify-center rounded-full text-text-sub-light dark:text-text-sub-dark hover:bg-gray-100 dark:hover:bg-[#234836] hover:text-text-main-light dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative flex flex-col gap-3 rounded-xl bg-transparent transition-all">
+<div class="relative aspect-video w-full overflow-hidden rounded-xl bg-gray-100 dark:bg-[#1f3a2b]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Person writing code on a laptop screen close up" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD9i-SuuhWm0hgsnObUqbGVqGJeGfwbWgBvfUvkBQ9ZtPpgNk2kcmUqe7-Lp5H7ZRHHuYlAxQtViWmgwWSNvOE-WWMLfg57RQVYWl0tN2f_rVoj0hHRaId5XNkoN8m06QS7xKbdbxO70J3uHbdvC6V9LIX3zdl03vxY7MytbWlStFaq2fZnRy8wzprtfgHgeebyf7e7nJkS-mbjPorc0dIhXCeOAergCUfeDljjhWP5-J9ACWL7m00opOJ-PuEn5SEOWWRPtg_cZxah');">
+</div>
+<div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+<button class="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-black shadow-lg backdrop-blur-sm transition-transform hover:scale-110">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">play_arrow</span>
+</button>
+</div>
+<div class="absolute bottom-2 right-2 rounded-md bg-black/70 px-2 py-1 text-xs font-medium text-white backdrop-blur-md">
+                                12:05
+                            </div>
+</div>
+<div class="flex items-start justify-between gap-2 px-1">
+<div class="flex flex-col gap-0.5">
+<h3 class="font-bold leading-tight text-text-main-light dark:text-white group-hover:text-primary transition-colors">Frontend Architecture Review</h3>
+<p class="text-xs text-text-sub-light dark:text-text-sub-dark">Yesterday • 450 MB</p>
+</div>
+<button class="flex h-8 w-8 items-center justify-center rounded-full text-text-sub-light dark:text-text-sub-dark hover:bg-gray-100 dark:hover:bg-[#234836] hover:text-text-main-light dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group relative flex flex-col gap-3 rounded-xl bg-transparent transition-all">
+<div class="relative aspect-video w-full overflow-hidden rounded-xl bg-gray-100 dark:bg-[#1f3a2b]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Minimalist abstract gradient background with soft shapes" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBxoj2qebo5fbr25ZcWp5UJCTiUzH-q78rI4yqWPIOpSZ27P3nULyNkkWSBt8-3nptrlR632_L-Q9JmwujH6Rut6HXosY8ud5H8zwFY3iKZS1UWvJOQ_HBmcS0bi2B3DZsxH9u7Cv4J6jDi0ubIMmUo3a1tXbbrPUu6o9_bM7ew7Qrsj2_SerKfXzyxgx8_yFjEMzjqCn5_uo61-sc2rX2kzX45WPdO_J5dtlZ7pR8-aiYjHj7QcPq_ksQ3Ew7sqxUJyGlIbBnmvzMH');">
+</div>
+<div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+<button class="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-black shadow-lg backdrop-blur-sm transition-transform hover:scale-110">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">play_arrow</span>
+</button>
+</div>
+<div class="absolute bottom-2 right-2 rounded-md bg-black/70 px-2 py-1 text-xs font-medium text-white backdrop-blur-md">
+                                0:54
+                            </div>
+</div>
+<div class="flex items-start justify-between gap-2 px-1">
+<div class="flex flex-col gap-0.5">
+<h3 class="font-bold leading-tight text-text-main-light dark:text-white group-hover:text-primary transition-colors">Bug Report #402</h3>
+<p class="text-xs text-text-sub-light dark:text-text-sub-dark">2 days ago • 8 MB</p>
+</div>
+<button class="flex h-8 w-8 items-center justify-center rounded-full text-text-sub-light dark:text-text-sub-dark hover:bg-gray-100 dark:hover:bg-[#234836] hover:text-text-main-light dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group relative flex flex-col gap-3 rounded-xl bg-transparent transition-all">
+<div class="relative aspect-video w-full overflow-hidden rounded-xl bg-gray-100 dark:bg-[#1f3a2b]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Modern web design dashboard interface screenshot" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB4E40eo1RiVQleqoWPzGZ0byerFerL2ts2JQ4Z-uOejw5K7CGZDBeh5gRPHQXiT_40tZOZEdvTThZcsJWTbGZTKaN1y0sHzSuQpETfk5Hkb8Nyp4MsmpLAAF26lufQts1KnEMIPW1gQq5xppE0JfYPLMJZCE2GnefEfVCe4iN7B0KRtb4UadI-T7CzZMoHZKwdjNOSstOKLc8I4D2E73d0XL9gFjzZqDZZlFuXjZOQUnlGRnIHDm3isZLf38UCqzIEJcjq8MQQjVSd');">
+</div>
+<div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+<button class="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-black shadow-lg backdrop-blur-sm transition-transform hover:scale-110">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">play_arrow</span>
+</button>
+</div>
+<div class="absolute bottom-2 right-2 rounded-md bg-black/70 px-2 py-1 text-xs font-medium text-white backdrop-blur-md">
+                                8:12
+                            </div>
+</div>
+<div class="flex items-start justify-between gap-2 px-1">
+<div class="flex flex-col gap-0.5">
+<h3 class="font-bold leading-tight text-text-main-light dark:text-white group-hover:text-primary transition-colors">Design System Walkthrough</h3>
+<p class="text-xs text-text-sub-light dark:text-text-sub-dark">Last week • 320 MB</p>
+</div>
+<button class="flex h-8 w-8 items-center justify-center rounded-full text-text-sub-light dark:text-text-sub-dark hover:bg-gray-100 dark:hover:bg-[#234836] hover:text-text-main-light dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="group relative flex flex-col gap-3 rounded-xl bg-transparent transition-all">
+<div class="relative aspect-video w-full overflow-hidden rounded-xl bg-gray-100 dark:bg-[#1f3a2b]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Soft pink and purple gradient abstract texture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDSnpJDlPKPujtq1sFcUcx8blXFhdcRCK7B4NV2hx52kGTMePxH2DHYs5Pr3RVghmyoHM93baXJrWDwN91o4IkNGKaYr20M9CYzMJ5-buZc1AlKyrrHhOfFeygLz8wGfPUkXOlsrgqvlCWazRuJaCfN-P2IaYbJ0fB0L6t9OtpzDenUaCTmUUsqLkkK_npeL0G3imO771Lig3RfSQNsbJj3nO93VE5tzH5utfmqWnNvtt97DjBc0DsTUUt7aS5Lh613tx50rE07lI_n');">
+</div>
+<div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+<button class="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-black shadow-lg backdrop-blur-sm transition-transform hover:scale-110">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">play_arrow</span>
+</button>
+</div>
+<div class="absolute bottom-2 right-2 rounded-md bg-black/70 px-2 py-1 text-xs font-medium text-white backdrop-blur-md">
+                                1:30
+                            </div>
+</div>
+<div class="flex items-start justify-between gap-2 px-1">
+<div class="flex flex-col gap-0.5">
+<h3 class="font-bold leading-tight text-text-main-light dark:text-white group-hover:text-primary transition-colors">Marketing Short v3</h3>
+<p class="text-xs text-text-sub-light dark:text-text-sub-dark">Last week • 45 MB</p>
+</div>
+<button class="flex h-8 w-8 items-center justify-center rounded-full text-text-sub-light dark:text-text-sub-dark hover:bg-gray-100 dark:hover:bg-[#234836] hover:text-text-main-light dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Empty State / Add New Card (Optional visual element for variety) -->
+<div class="group flex flex-col gap-3 rounded-xl bg-transparent transition-all">
+<div class="relative flex aspect-video w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-xl border-2 border-dashed border-gray-200 dark:border-[#234836] bg-gray-50/50 dark:bg-[#162e21]/50 hover:bg-gray-50 dark:hover:bg-[#162e21] transition-colors cursor-pointer">
+<div class="rounded-full bg-primary/10 p-4">
+<span class="material-symbols-outlined text-3xl text-primary">add</span>
+</div>
+<p class="text-sm font-medium text-text-sub-light dark:text-text-sub-dark">New Collection</p>
+</div>
+<!-- Ghost text to align grid -->
+<div class="flex items-start justify-between gap-2 px-1 opacity-0">
+<div class="flex flex-col gap-0.5">
+<h3 class="font-bold leading-tight">Ghost</h3>
+<p class="text-xs">Ghost</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Toggle Theme Helper (For demo purposes to view light/dark modes easily, positioned fixed) -->
+<div class="fixed bottom-6 right-6 z-50">
+<button class="flex h-12 w-12 items-center justify-center rounded-full bg-surface-dark text-white dark:bg-surface-light dark:text-black shadow-lg hover:scale-110 transition-transform" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined hidden dark:block">light_mode</span>
+</button>
+</div>
+</body></html>

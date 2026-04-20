@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FocusRecord Editor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec80",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102219",
+                        "surface-dark": "#1a3326", // Slightly lighter than bg-dark for panels
+                        "surface-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#11221a] dark:text-white font-display overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between border-b border-gray-200 dark:border-[#234836] px-6 py-3 bg-white dark:bg-background-dark shrink-0 z-20">
+<div class="flex items-center gap-4">
+<div class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-size: 20px;">radio_button_checked</span>
+</div>
+<div>
+<h1 class="text-sm font-bold leading-tight tracking-[-0.015em] dark:text-white text-gray-900">Untitled Recording</h1>
+<div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+<span>Projects</span>
+<span>/</span>
+<span class="text-primary font-medium">Editor</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center bg-gray-100 dark:bg-[#1c3a2f] rounded-full p-1 border border-transparent dark:border-[#234836]">
+<button class="size-8 flex items-center justify-center rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#2a5544] transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">undo</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#2a5544] transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">redo</span>
+</button>
+</div>
+<div class="h-6 w-px bg-gray-200 dark:bg-[#234836]"></div>
+<button class="flex items-center justify-center gap-2 rounded-full h-9 px-4 bg-gray-100 dark:bg-[#1c3a2f] text-gray-900 dark:text-white text-sm font-bold border border-transparent dark:border-[#234836] hover:bg-gray-200 dark:hover:bg-[#2a5544] transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">cloud_upload</span>
+<span>Save</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-full h-9 px-6 bg-primary text-[#11221a] text-sm font-bold shadow-[0_0_15px_rgba(19,236,128,0.3)] hover:shadow-[0_0_20px_rgba(19,236,128,0.5)] transition-shadow">
+<span>Export</span>
+<span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
+</button>
+<div class="ml-2 size-9 rounded-full bg-cover bg-center border-2 border-primary/20" data-alt="User profile avatar showing a person smiling" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuABIzepJdMVt5zQk8w5EC1A1sdM5z_C8TdPClaAw2G26qmx4mzXhlSLfHfgoMpSZmb6SLjwMAOoSxQOKKtlpcaug0epOmh0Gw7GgqfiE6zA9KP8OokgyfWJjeyubRe3c9T9l70vAWzpU-Ixi00AMKbeRvJa1KWvjeHhH_QzB0x1GuhvVMHlAN0Hx8G_5EsPPygmsTQW0GkZVlH24PsuFLuu6D7C2kxmaTqmae_lHlEswUg-BVbeuhlJbQ_8H7azAslBydFPMjz8sIb1");'></div>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left + Center Area (Canvas + Timeline) -->
+<div class="flex-1 flex flex-col min-w-0 bg-gray-50 dark:bg-[#0c1a13]">
+<!-- Canvas Area -->
+<div class="flex-1 flex items-center justify-center p-8 relative overflow-hidden">
+<!-- Safe Area Guides (Subtle) -->
+<div class="absolute inset-12 border border-dashed border-gray-300 dark:border-[#234836] pointer-events-none opacity-50 rounded-lg"></div>
+<!-- Video Container -->
+<div class="relative aspect-video w-full max-w-4xl bg-black rounded-lg overflow-hidden shadow-2xl ring-1 ring-black/10 dark:ring-white/10 group">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Screen recording preview showing code editor and browser window" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCRaQK7Zas9O6G_lRZaWOqf9JE6HxHGnLMPQntp0eloxJyxNTKx98jOz_MklN4aPWCUY9hQqxPNZOd8JI9cnEI6WZ3GpEGYrk_uao5YUih87QrAEguY26Ar1IHbtE6z5aMnAiUzWz-AWLrkZLA45d3_oiOE5dupQet4-SgvNrSCJ3FpmHz2JF_h4_fvgMbBhA63M4ZNWdK8Dm7wIqOYP3tUyCOPbQo_WkvMA0wUDPRNdcdp9UqK-4PzXVcOiRoL2sOmDsO_aOuAAbKa");'></div>
+<!-- Webcam Overlay -->
+<div class="absolute bottom-6 right-6 size-32 rounded-full border-4 border-primary shadow-lg overflow-hidden z-10 cursor-move hover:scale-105 transition-transform">
+<div class="w-full h-full bg-cover bg-center" data-alt="Webcam view of a person talking" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBCjKpVPXKyCSkm2arbB2TYF_svfeMnx469LBl9CQ3qxjR_lTH3U8ZgwfMhC0vVNapYZ75AgPMTvNkkx_ErqjqL8y7CDZYxQZ4sBFWPosOoZY4_CxoCxI-qNq2g5RwhOJSFKK5Zml3aCc1m6JWd_OTljo83EdbpCJ96Z8Yw4HRBYnZhd18vvUWZS9NAscQWC3MgBDJ9oCXL1BtwTe6abVv8R9hoAq3wgCfgbKGy27mrmQLW4R2nbXtZLNTqC1whAxlHc7pWrLh3Vrv3");'></div>
+</div>
+<!-- Centered Play Button (Hover) -->
+<button class="absolute inset-0 m-auto size-20 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 transition-opacity transform hover:scale-110">
+<span class="material-symbols-outlined" style="font-size: 48px;">play_arrow</span>
+</button>
+<!-- Time Overlay -->
+<div class="absolute top-4 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/60 backdrop-blur rounded-full text-white text-xs font-mono">
+                        00:34 / 02:15
+                    </div>
+</div>
+</div>
+<!-- Timeline Area -->
+<div class="h-64 bg-white dark:bg-[#11221a] border-t border-gray-200 dark:border-[#234836] flex flex-col shrink-0">
+<!-- Timeline Tools -->
+<div class="flex items-center justify-between px-6 py-2 border-b border-gray-100 dark:border-[#1c3a2f]">
+<div class="flex items-center gap-4">
+<button class="text-gray-500 dark:text-gray-400 hover:text-primary transition-colors flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-xl">cut</span>
+<span class="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover:opacity-100">Split</span>
+</button>
+<button class="text-gray-500 dark:text-gray-400 hover:text-primary transition-colors flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-xl">delete</span>
+<span class="text-[10px] uppercase font-bold tracking-wider opacity-0 group-hover:opacity-100">Del</span>
+</button>
+<div class="w-px h-6 bg-gray-200 dark:bg-[#234836]"></div>
+<button class="text-gray-500 dark:text-gray-400 hover:text-primary transition-colors flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-xl">zoom_in</span>
+</button>
+<button class="text-gray-500 dark:text-gray-400 hover:text-primary transition-colors flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-xl">zoom_out</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-gray-500 font-mono">Zoom Level: 100%</span>
+</div>
+</div>
+<!-- Tracks -->
+<div class="flex-1 overflow-x-auto overflow-y-hidden relative p-4 custom-scrollbar">
+<!-- Time Ruler -->
+<div class="flex justify-between text-xs text-gray-400 mb-2 px-1 font-mono select-none">
+<span>00:00</span>
+<span>00:15</span>
+<span>00:30</span>
+<span>00:45</span>
+<span>01:00</span>
+<span>01:15</span>
+<span>01:30</span>
+<span>01:45</span>
+<span>02:00</span>
+</div>
+<!-- Playhead Line -->
+<div class="absolute top-0 bottom-0 left-[30%] w-px bg-primary z-20 pointer-events-none flex flex-col items-center">
+<div class="size-3 bg-primary rotate-45 -mt-1.5 shadow-sm"></div>
+</div>
+<!-- Track 1: Screen -->
+<div class="mb-3 relative group">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-gray-400 text-sm">desktop_windows</span>
+<span class="text-xs font-semibold text-gray-500 dark:text-gray-300">Screen Record</span>
+</div>
+<div class="h-12 bg-[#234836]/30 rounded-lg relative overflow-hidden ring-1 ring-[#234836]">
+<div class="absolute inset-y-0 left-0 right-[20%] bg-[#2a5544] rounded-l-lg flex items-center px-2 overflow-hidden">
+<!-- Waveform simulation -->
+<div class="flex items-end gap-0.5 h-full opacity-30 w-full">
+<div class="w-1 bg-primary h-[40%]"></div>
+<div class="w-1 bg-primary h-[70%]"></div>
+<div class="w-1 bg-primary h-[50%]"></div>
+<div class="w-1 bg-primary h-[80%]"></div>
+<div class="w-1 bg-primary h-[30%]"></div>
+<div class="w-1 bg-primary h-[60%]"></div>
+<div class="w-1 bg-primary h-[40%]"></div>
+<div class="w-1 bg-primary h-[90%]"></div>
+<div class="w-1 bg-primary h-[20%]"></div>
+<div class="w-1 bg-primary h-[40%]"></div>
+<div class="w-1 bg-primary h-[70%]"></div>
+<div class="w-1 bg-primary h-[50%]"></div>
+<div class="w-1 bg-primary h-[80%]"></div>
+<div class="w-1 bg-primary h-[30%]"></div>
+<div class="w-1 bg-primary h-[60%]"></div>
+<div class="w-1 bg-primary h-[40%]"></div>
+<div class="w-1 bg-primary h-[90%]"></div>
+<div class="w-1 bg-primary h-[20%]"></div>
+<div class="w-1 bg-primary h-[40%]"></div>
+<div class="w-1 bg-primary h-[70%]"></div>
+<div class="w-1 bg-primary h-[50%]"></div>
+<div class="w-1 bg-primary h-[80%]"></div>
+<div class="w-1 bg-primary h-[30%]"></div>
+<div class="w-1 bg-primary h-[60%]"></div>
+<div class="w-1 bg-primary h-[40%]"></div>
+<div class="w-1 bg-primary h-[90%]"></div>
+<div class="w-1 bg-primary h-[20%]"></div>
+</div>
+</div>
+<!-- Selection Handles -->
+<div class="absolute inset-y-0 left-[30%] w-1 bg-primary cursor-col-resize z-10"></div>
+<div class="absolute inset-y-0 left-[30%] right-[30%] border-t-2 border-b-2 border-primary bg-primary/10 pointer-events-none"></div>
+</div>
+</div>
+<!-- Track 2: Webcam -->
+<div class="relative group">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-gray-400 text-sm">videocam</span>
+<span class="text-xs font-semibold text-gray-500 dark:text-gray-300">Webcam</span>
+</div>
+<div class="h-12 bg-[#234836]/30 rounded-lg relative ring-1 ring-[#234836]">
+<div class="absolute inset-y-0 left-[10%] right-[10%] bg-[#3d7a60] rounded-lg border border-primary/50">
+<!-- Keyframes -->
+<div class="absolute top-1/2 -translate-y-1/2 left-4 size-3 bg-primary rotate-45 border-2 border-[#11221a] shadow-sm z-10" title="Scale Keyframe"></div>
+<div class="absolute top-1/2 -translate-y-1/2 left-[40%] size-3 bg-white rotate-45 border-2 border-[#11221a] shadow-sm z-10 opacity-70" title="Position Keyframe"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Inspector Panel -->
+<aside class="w-80 bg-white dark:bg-[#152b21] border-l border-gray-200 dark:border-[#234836] flex flex-col shrink-0 z-10 overflow-y-auto">
+<!-- Inspector Header -->
+<div class="px-5 py-4 border-b border-gray-100 dark:border-[#234836]">
+<h2 class="text-base font-bold text-gray-900 dark:text-white">Properties</h2>
+<div class="flex gap-1 mt-4 p-1 bg-gray-100 dark:bg-[#1c3a2f] rounded-lg">
+<button class="flex-1 py-1.5 px-3 rounded text-xs font-medium bg-white dark:bg-[#2a5544] text-gray-900 dark:text-white shadow-sm transition-all">Visual</button>
+<button class="flex-1 py-1.5 px-3 rounded text-xs font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-all">Audio</button>
+<button class="flex-1 py-1.5 px-3 rounded text-xs font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-all">Effects</button>
+</div>
+</div>
+<!-- Accordion Items -->
+<div class="flex flex-col">
+<!-- Section: Dimensions -->
+<div class="p-5 border-b border-gray-100 dark:border-[#234836]">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">aspect_ratio</span>
+                            Layout
+                        </h3>
+<span class="material-symbols-outlined text-gray-400 text-sm cursor-pointer">expand_less</span>
+</div>
+<div class="grid grid-cols-2 gap-3 mb-4">
+<div>
+<label class="text-[10px] uppercase text-gray-500 font-bold tracking-wider mb-1 block">X Position</label>
+<div class="relative">
+<input class="w-full bg-gray-50 dark:bg-[#0c1a13] border border-gray-200 dark:border-[#234836] rounded px-3 py-1.5 text-sm font-mono focus:border-primary focus:ring-1 focus:ring-primary outline-none" type="text" value="960"/>
+<span class="absolute right-2 top-1.5 text-xs text-gray-400">px</span>
+</div>
+</div>
+<div>
+<label class="text-[10px] uppercase text-gray-500 font-bold tracking-wider mb-1 block">Y Position</label>
+<div class="relative">
+<input class="w-full bg-gray-50 dark:bg-[#0c1a13] border border-gray-200 dark:border-[#234836] rounded px-3 py-1.5 text-sm font-mono focus:border-primary focus:ring-1 focus:ring-primary outline-none" type="text" value="540"/>
+<span class="absolute right-2 top-1.5 text-xs text-gray-400">px</span>
+</div>
+</div>
+</div>
+<div class="mb-2">
+<label class="text-[10px] uppercase text-gray-500 font-bold tracking-wider mb-1 flex justify-between">
+<span>Scale</span>
+<span class="text-primary">100%</span>
+</label>
+<input class="w-full h-1 bg-gray-200 dark:bg-[#234836] rounded-lg appearance-none cursor-pointer accent-primary" max="200" min="0" type="range" value="100"/>
+</div>
+</div>
+<!-- Section: Webcam Settings -->
+<div class="p-5 border-b border-gray-100 dark:border-[#234836]">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">videocam</span>
+                            Webcam
+                        </h3>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-[#234836] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</div>
+</div>
+<div class="flex gap-2 mb-4">
+<button class="flex-1 flex flex-col items-center justify-center gap-1 h-16 rounded-lg border-2 border-primary bg-primary/10 text-primary">
+<span class="material-symbols-outlined">circle</span>
+<span class="text-[10px] font-bold">Circle</span>
+</button>
+<button class="flex-1 flex flex-col items-center justify-center gap-1 h-16 rounded-lg border border-gray-200 dark:border-[#234836] bg-gray-50 dark:bg-[#0c1a13] text-gray-500 hover:border-gray-300 dark:hover:border-gray-600 transition-colors">
+<span class="material-symbols-outlined">square</span>
+<span class="text-[10px] font-bold">Square</span>
+</button>
+<button class="flex-1 flex flex-col items-center justify-center gap-1 h-16 rounded-lg border border-gray-200 dark:border-[#234836] bg-gray-50 dark:bg-[#0c1a13] text-gray-500 hover:border-gray-300 dark:hover:border-gray-600 transition-colors">
+<span class="material-symbols-outlined">rectangle</span>
+<span class="text-[10px] font-bold">Portrait</span>
+</button>
+</div>
+<div class="space-y-3">
+<div>
+<label class="text-[10px] uppercase text-gray-500 font-bold tracking-wider mb-1 block">Border Width</label>
+<input class="w-full h-1 bg-gray-200 dark:bg-[#234836] rounded-lg appearance-none cursor-pointer accent-primary" max="20" min="0" type="range" value="4"/>
+</div>
+<div>
+<label class="text-[10px] uppercase text-gray-500 font-bold tracking-wider mb-1 block">Border Color</label>
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-primary border border-white/20 cursor-pointer shadow-sm"></div>
+<div class="size-6 rounded-full bg-white border border-gray-200 cursor-pointer shadow-sm"></div>
+<div class="size-6 rounded-full bg-black border border-gray-600 cursor-pointer shadow-sm"></div>
+<button class="size-6 rounded-full border border-dashed border-gray-400 flex items-center justify-center text-gray-400 hover:text-primary hover:border-primary">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Background -->
+<div class="p-5 border-b border-gray-100 dark:border-[#234836]">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">wallpaper</span>
+                            Background
+                        </h3>
+<span class="material-symbols-outlined text-gray-400 text-sm cursor-pointer">expand_more</span>
+</div>
+</div>
+<!-- Section: Export Summary -->
+<div class="p-5 mt-auto">
+<div class="p-4 bg-gray-100 dark:bg-[#1c3a2f] rounded-xl border border-transparent dark:border-[#234836]">
+<h4 class="text-xs font-bold uppercase text-gray-500 mb-2">Export Summary</h4>
+<div class="flex justify-between items-center text-sm mb-1">
+<span class="text-gray-600 dark:text-gray-300">Duration</span>
+<span class="font-mono font-medium">02:15</span>
+</div>
+<div class="flex justify-between items-center text-sm mb-3">
+<span class="text-gray-600 dark:text-gray-300">Resolution</span>
+<span class="font-mono font-medium">1080p</span>
+</div>
+<button class="w-full py-2 bg-white dark:bg-[#0c1a13] border border-gray-200 dark:border-[#234836] rounded-lg text-xs font-bold hover:bg-gray-50 dark:hover:bg-[#11221a] transition-colors">
+                            Change Settings
+                        </button>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<style>
+        /* Custom Scrollbar for Timeline */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #234836;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+             background-color: #234836;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #13ec80;
+        }
+    </style>
+</body></html>
